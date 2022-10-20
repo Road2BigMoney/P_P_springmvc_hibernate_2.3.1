@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1 th:text="${users}"></h1>
+<br><br>
+
+<div th:each="user : ${users}" >
+    <p th:text="user"></p>
+    <br><br>
+</div>
+<br><br>
+<a th:action="@{/saveForm}" th:text="Добавить пользователя"></a>
+</body>
+</html>
