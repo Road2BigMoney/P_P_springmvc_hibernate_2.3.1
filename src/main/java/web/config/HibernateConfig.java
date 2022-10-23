@@ -23,9 +23,9 @@ import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:db.properties")
+@ComponentScan(value = "web")
 @EnableTransactionManagement
-@ComponentScan("web")
+@PropertySource("classpath:db.properties")
 public class HibernateConfig {
 
     private final Environment env;
@@ -37,30 +37,15 @@ public class HibernateConfig {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("db.driver")));
-        dataSource.setUrl(env.getProperty("db.url"));
-        dataSource.setUsername(env.getProperty("db.user"));
-        dataSource.setPassword(env.getProperty("db.pass"));
+        dataSource.setDriverClassName(env.getRequiredProperty("db.driver"));
+        dataSource.setUrl(env.getRequiredProperty("db.url"));
+        dataSource.setUsername(env.getRequiredProperty("db.user"));
+        dataSource.setPassword(env.getRequiredProperty("db.pass"));
         return dataSource;
     }
 
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//        final LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-//        sessionFactoryBean.setDataSource(getDataSource());
-//        sessionFactoryBean.setPackagesToScan("web.models");
-//        sessionFactoryBean.setHibernateProperties(additionalProperties());
-//        return sessionFactoryBean;
-//    }
-//    @Bean
-//    @Autowired
-//    public HibernateTransactionManager transactionManager(final SessionFactory sessionFactory) {
-//        final HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory);
-//        return transactionManager;
-//    }
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManager() {
     LocalContainerEntityManagerFactoryBean factoryBean
             = new LocalContainerEntityManagerFactoryBean();
     factoryBean.setDataSource(getDataSource());
@@ -76,7 +61,7 @@ public class HibernateConfig {
     @Bean
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(entityManager().getObject());
 
         return transactionManager;
     }
