@@ -32,7 +32,7 @@ public class UsersController {
     public String saveForm(Model model) throws SQLException {
         User user = new User();
         model.addAttribute("user", user);
-        return "user-info";
+        return "save";
     }
 
     @GetMapping("/saveUser")
@@ -40,4 +40,11 @@ public class UsersController {
         userService.saveUser(user);
         return "redirect:users";
     }
+
+    @GetMapping("/user-info")
+    public String userInfo(@ModelAttribute("user") User user) {
+
+        return "user-info";
+    }
+
 }

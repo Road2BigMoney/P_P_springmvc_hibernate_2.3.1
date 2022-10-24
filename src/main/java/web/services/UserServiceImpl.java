@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
 
     private final UserDao userDao;
@@ -20,13 +21,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
     public void saveUser(User user) throws SQLException {
         userDao.saveUser(user);
     }
 
     @Override
-    @Transactional
     public List<User> listUsers() {
         return userDao.listUsers();
     }

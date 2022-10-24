@@ -16,7 +16,7 @@ public class UserDaoHibernateImpl implements UserDao {
     private EntityManager entityManager;
 
     @Override
-    public void saveUser(User user) {
+    public void saveUser (User user) {
         entityManager.persist(user);
     }
 
