@@ -25,4 +25,19 @@ public class UserDaoHibernateImpl implements UserDao {
         return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
+    @Override
+    public User getById(int id) {
+
+        return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public void update(User user) {
+        entityManager.merge(user);
+    }
+
+    @Override
+    public void delete(int id) {
+        entityManager.remove(getById(id));
+    }
 }
