@@ -38,6 +38,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void delete(int id) {
-        entityManager.remove(getById(id));
+        entityManager.createQuery("delete from User u where u.id =" + id).executeUpdate();
     }
 }
